@@ -1,0 +1,235 @@
+const browserSync = require('browser-sync');
+const del = require('del');
+const { dest, parallel, series, src, watch } = require('gulp');
+const gulpLoadPlugins = require('gulp-load-plugins');
+const path = require('path');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
+
+const pkg = require('./package.json');
+
+const $ = gulpLoadPlugins();
+const server = browserSync.create();
+const environment = process.env.NODE_ENV || 'development';
+const production = environment === 'production';
+const target = process.env.TARGET;
+
+console.log(`v${pkg.version}, NODE_ENV: ${environment}`); // eslint-disable-line
+
+if (target === undefined) {
+  throw new Error(
+    'Specify the "TARGET" env. Example: "TARGET=chrome". Available options: chrome, firefox.'
+  );
+}
+
+// TODO: where? "extension": "chrome", "extension": "firefox"
+
+const manifestConfig = {
+  dev: {
+    // TODO: disabled
+    // background: {
+    //   scripts: ['scripts/livereload.js']
+    // }
+  },
+
+  firefox: {
+    applications: {
+      gecko: {
+        id: 'my-app-id@mozilla.org'
+      }
+    }
+  }
+};
+
+// --------------------------------------
+// Utils
+// --------------------------------------
+
+const pipe = (source, ...transforms) =>
+  transforms.reduce((stream, transform) => {
+    return stream.pipe(
+      typeof transform === 'string' ? dest(transform) : transform
+    );
+  }, src(source));
+
+// --------------------------------------
+// Tasks
+// --------------------------------------
+
+const scripts = done => {
+  // Use it to upgrade to the new Webpack
+  // process.traceDeprecation = true;
+
+  webpack(
+    {
+      context: path.resolve(__dirname, 'src'),
+      entry: './scripts/index.js',
+      performance: { hints: 'warning' },
+      mode: production === true ? 'production' : 'development',
+      devtool: production === true ? false : 'source-map',
+      output: {
+        path: path.resolve(__dirname, 'src/scripts'),
+        filename: 'index.min.js'
+      },
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: {
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory: true
+              }
+            }
+          },
+          {
+            test: /\.svg$/,
+            use: ['@svgr/webpack']
+          }
+        ]
+      },
+      optimization: {
+        minimizer: [
+          new TerserWebpackPlugin({
+            sourceMap: production === false,
+            terserOptions: {
+              output: {
+                comments: false
+              }
+            },
+            extractComments: false
+          })
+        ]
+      }
+    },
+    (err, stats) => {
+      if (err) {
+        throw new Error('webpack', err);
+      }
+
+      if (production === false) {
+        console.log(
+          '[webpack]',
+          stats.toString({
+            all: false,
+            colors: true,
+            builtAt: true,
+            errors: true,
+            errorDetails: true,
+            timings: true
+          })
+        );
+        console.log('[webpack]', 'Packed successfully!');
+      }
+
+      if (production === true) {
+        src('src/scripts/index.min.js')
+          .pipe($.plumber())
+          .pipe(dest(`build/${target}/scripts`));
+      }
+
+      done();
+    }
+  );
+};
+
+const manifest = () =>
+  src('./src/manifest.json')
+    .pipe($.plumber())
+    .pipe(
+      $.if(
+        production === false,
+        $.mergeJson({
+          fileName: 'manifest.json',
+          jsonSpace: ' '.repeat(4),
+          endObj: manifestConfig.dev
+        })
+      )
+    )
+    .pipe(
+      $.if(
+        target === 'firefox',
+        $.mergeJson({
+          fileName: 'manifest.json',
+          jsonSpace: ' '.repeat(4),
+          endObj: manifestConfig.firefox
+        })
+      )
+    )
+    .pipe(dest(`./build/${target}`))
+    .pipe($.size({ title: 'manifest' }));
+
+const images = () =>
+  src(['src/images/**/*'], {})
+    .pipe($.plumber())
+    .pipe($.imagemin({ progressive: true, interlaced: true }))
+    .pipe(dest(`./build/${target}/images/`))
+    .pipe($.size({ title: 'images' }));
+
+// --------------------------------------
+// Others
+// --------------------------------------
+
+const clean = () => del(`./build/${target}`);
+
+const copy = dest => {
+  const icons = () => pipe('./src/icons/**/*', `./build/${dest}/icons`);
+  const images = () =>
+    pipe([`./src/images/${target}/**/*`], `./build/${dest}/images`);
+  const imagesShared = () =>
+    pipe(['./src/images/shared/**/*'], `./build/${dest}/images`);
+  const html = () => pipe(['./src/**/*.{html,ico}'], `./build/${dest}`);
+
+  return parallel(icons, images, imagesShared, html);
+};
+
+const ext = done =>
+  series(parallel(manifest, scripts), doneTwo => copy(target)(doneTwo))(done);
+
+const zip = () =>
+  pipe(
+    `./build/${target}/**/*`,
+    $.zip(`${pkg.name}-${target}-v${pkg.version}.zip`),
+    './dist'
+  );
+
+const build = done => series(clean, ext)(done);
+
+const dist = done => series(build, zip)(done);
+
+const reload = done => {
+  server.reload();
+  done();
+};
+
+const listen = () => {
+  server.init({ notify: false, server: 'src' });
+
+  watch(['src/**/*.html'], reload);
+  watch(
+    ['src/scripts/**/*.js', '!src/scripts/**/*.min.*'],
+    series(scripts, reload)
+  );
+  watch(['src/images/**/*'], series(images, reload));
+};
+
+const serve = () => series(scripts, listen)();
+
+// --------------------------------------
+// Exports
+// --------------------------------------
+
+Object.assign(exports, {
+  build,
+  clean,
+  default: build,
+  dist,
+  ext,
+  images,
+  manifest,
+  mergeAll: copy,
+  scripts,
+  serve,
+  zip
+});

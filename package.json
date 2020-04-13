@@ -1,0 +1,96 @@
+{
+  "name": "netabrex",
+  "version": "0.1.0",
+  "description": "The browser extension to replace browser new Tab",
+  "author": "Artur Parkhisenko <ikeagold@gmail.com> (https://arturparkhisenko.github.io/)",
+  "engineStrict": true,
+  "engines": {
+    "node": ">= 10.14.0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "customization",
+    "extension",
+    "new-tab-page",
+    "productivity"
+  ],
+  "scripts": {
+    "build": "cross-env NODE_ENV=production npm run chrome-build && cross-env NODE_ENV=production npm run firefox-build",
+    "chrome-build": "cross-env TARGET=chrome gulp",
+    "chrome-dist": "cross-env NODE_ENV=production cross-env TARGET=chrome gulp dist",
+    "chrome-watch": "cross-env TARGET=chrome gulp serve",
+    "dist": "npm run chrome-dist && npm run firefox-dist",
+    "firefox-build": "cross-env TARGET=firefox gulp",
+    "firefox-dist": "cross-env NODE_ENV=production cross-env TARGET=firefox gulp dist",
+    "firefox-watch": "cross-env TARGET=firefox gulp serve",
+    "format-scripts": "prettier-eslint --write ./src/scripts/**/*.js",
+    "start": "cross-env TARGET=chrome gulp serve",
+    "test": "jest"
+  },
+  "browserslist": {
+    "production": [
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "firefox esr"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "firefox esr"
+    ]
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "./src/tests/setup.js"
+    ],
+    "moduleNameMapper": {
+      "\\.svg$": "<rootDir>/src/tests/file-mock.js"
+    }
+  },
+  "dependencies": {
+    "@primer/components": "^17.1.1",
+    "@primer/octicons-react": "^9.6.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@svgr/webpack": "^5.3.1",
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.2",
+    "@testing-library/user-event": "^10.0.1",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-styled-components": "^1.10.7",
+    "browser-sync": "^2.26.7",
+    "cross-env": "^7.0.2",
+    "del": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-jest-dom": "^2.0.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "gulp": "^4.0.2",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-load-plugins": "^2.0.3",
+    "gulp-merge-json": "^2.1.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-size": "^3.0.0",
+    "gulp-zip": "^5.0.1",
+    "jest": "^25.3.0",
+    "prettier-eslint-cli": "^5.0.0",
+    "stylelint": "^13.3.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0",
+    "terser-webpack-plugin": "^2.3.5",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
