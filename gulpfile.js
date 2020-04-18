@@ -1,8 +1,12 @@
 const browserSync = require('browser-sync');
+const cssnano = require('cssnano');
 const del = require('del');
 const { dest, parallel, series, src, watch } = require('gulp');
 const gulpLoadPlugins = require('gulp-load-plugins');
 const path = require('path');
+const postcssImport = require('postcss-import');
+const postcssPresetEnv = require('postcss-preset-env');
+const postcssReporter = require('postcss-reporter');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
@@ -101,7 +105,12 @@ const scripts = done => {
             extractComments: false
           })
         ]
-      }
+      },
+      plugins: [
+        new webpack.DefinePlugin({
+          DEBUG: JSON.stringify(production !== true)
+        })
+      ]
     },
     (err, stats) => {
       if (err) {
@@ -133,6 +142,23 @@ const scripts = done => {
     }
   );
 };
+
+const styles = () =>
+  src('src/styles/index.css')
+    .pipe($.if(production === false, $.sourcemaps.init()))
+    .pipe(
+      $.postcss([
+        postcssImport(),
+        postcssPresetEnv(),
+        cssnano({ preset: 'advanced' }),
+        postcssReporter()
+      ])
+    )
+    .pipe($.rename({ suffix: '.min' }))
+    .pipe($.if(production === false, $.sourcemaps.write('./')))
+    .pipe(dest('src/styles/'))
+    .pipe($.if(production === true, dest(`build/${target}/styles`)))
+    .pipe($.size({ title: 'styles' }));
 
 const manifest = () =>
   src('./src/manifest.json')
@@ -185,7 +211,9 @@ const copy = dest => {
 };
 
 const ext = done =>
-  series(parallel(manifest, scripts), doneTwo => copy(target)(doneTwo))(done);
+  series(parallel(manifest, scripts, styles), doneTwo => copy(target)(doneTwo))(
+    done
+  );
 
 const zip = () =>
   pipe(
@@ -211,10 +239,14 @@ const listen = () => {
     ['src/scripts/**/*.js', '!src/scripts/**/*.min.*'],
     series(scripts, reload)
   );
+  watch(
+    ['src/styles/**/*.css', '!src/styles/**/*.min.*'],
+    series(styles, reload)
+  );
   watch(['src/images/**/*'], series(images, reload));
 };
 
-const serve = () => series(scripts, listen)();
+const serve = () => series(scripts, styles, listen)();
 
 // --------------------------------------
 // Exports
@@ -231,5 +263,6 @@ Object.assign(exports, {
   mergeAll: copy,
   scripts,
   serve,
+  styles,
   zip
 });

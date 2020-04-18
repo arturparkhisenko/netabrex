@@ -1,0 +1,24 @@
+/* @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
+
+:root {
+  /* Color Palette @see https='//en.wikipedia.org/wiki/List_of_video_game_console_palettes#NES */
+  --color1A: #00a800;
+  --color2A: #58d854;
+
+  /* Colors */
+  --colorLight: #fafbfc;
+  --colorDark: #252525;
+  --colorPrimary: var(--color1A);
+  --colorSecondary: var(--color2A);
+
+  /* Fonts */
+  --fontStack: monospace;
+  --fontSize: 16px;
+}
+
+/* Apple dark theme support */
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+  }
+} */

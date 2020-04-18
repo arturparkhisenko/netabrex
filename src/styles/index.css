@@ -1,0 +1,5 @@
+@import "./variables.css";
+@import "./general.css";
+
+/* Components */
+@import "./app.css";

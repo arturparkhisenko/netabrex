@@ -1,28 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createGlobalStyle } from 'styled-components';
+import { StoreContext } from 'storeon/react';
 
-import App from './App';
-import * as Constants from './constants';
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    background-color: ${Constants.colorLight};
-    font-family: ${Constants.fontStack};
-    font-size: ${Constants.fontSize};
-    text-rendering: optimizeLegibility;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-  }
-`;
+import App from './app';
+import { createStore } from './store';
 
 export class MainController {
+  constructor() {
+    this.store = createStore();
+  }
+
   main() {
     ReactDOM.render(
       <React.StrictMode>
-        <GlobalStyle />
-        <App />
+        <StoreContext.Provider value={this.store}>
+          <App />
+        </StoreContext.Provider>
       </React.StrictMode>,
       document.getElementById('root')
     );

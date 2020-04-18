@@ -1,9 +1,7 @@
 {
   "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-styled-components"
-  ]
-  "processors": ["stylelint-processor-styled-components"],
+    "stylelint-config-standard"
+  ],
   "rules": {
     "indentation": 2
   }
