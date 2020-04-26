@@ -3,25 +3,16 @@ import { persistState } from '@storeon/localstorage';
 import { createStoreon } from 'storeon';
 import { storeonLogger } from 'storeon/devtools';
 
-export const CHANGE_DATA = 'changeData';
-export const CHANGE_VIEW = 'changeView';
+import * as Constants from './constants';
+
 export const RESET_DATA = 'resetData';
-export const SET_VIEW = 'setView';
-
-/**
- * @typedef {Object.<string, string>} Data map the id to item
- */
-
-/**
- * @typedef {Object} View
- * @property {string} id
- * @property {Object} meta
- */
+export const SET_DATA = 'setData';
+export const SET_MODE = 'setMode';
 
 /**
  * @typedef {Object} State
- * @property {Data} data
- * @property {?View} view
+ * @property {?string} data
+ * @property {string} mode
  */
 
 /**
@@ -31,8 +22,8 @@ export const SET_VIEW = 'setView';
  */
 export const getInitialState = () => {
   return {
-    data: {},
-    view: null
+    data: '# Hello\nStart writing here',
+    mode: Constants.MODE_EDITOR
   };
 };
 
@@ -45,20 +36,16 @@ export const getInitialState = () => {
  */
 export const createReducer = (action, reducer) => ({ action, reducer });
 
-export const changeData = createReducer(CHANGE_DATA, ({ data }, newData) => {
-  return { data: { ...data, ...newData } };
-});
-
-export const changeView = createReducer(CHANGE_VIEW, ({ view }, newView) => {
-  return { view: { ...view, ...newView } };
-});
-
 export const resetData = createReducer(RESET_DATA, () => {
   return { data: getInitialState().data };
 });
 
-export const setView = createReducer(SET_VIEW, (state, view) => {
-  return { view };
+export const setData = createReducer(SET_DATA, (state, data) => {
+  return { data };
+});
+
+export const setMode = createReducer(SET_MODE, (state, mode) => {
+  return { mode };
 });
 
 /**
@@ -67,7 +54,7 @@ export const setView = createReducer(SET_VIEW, (state, view) => {
  * @param {Object} instance of the store
  */
 export const initStore = store => {
-  let reducers = [changeData, changeView, resetData, setView];
+  let reducers = [resetData, setData, setMode];
   store.on('@init', () => getInitialState());
 
   reducers.forEach(({ action, reducer }) => {

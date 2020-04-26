@@ -75,4 +75,6 @@ temp
 .idea
 .vscode
 
-src/**/*.min.*
+# min files
+src/scripts/*.min.*
+src/styles/*.min.*

@@ -6,13 +6,17 @@
   --color2A: #58d854;
 
   /* Colors */
-  --colorLight: #fafbfc;
+  --colorLight: #f5f5f5;
   --colorDark: #252525;
   --colorPrimary: var(--color1A);
   --colorSecondary: var(--color2A);
 
+  /* Focus */
+  --colorFocus: rgba(0, 100, 255, 0.4) 0 0 0 0.2rem;
+
   /* Fonts */
-  --fontStack: monospace;
+  --fontStack: -apple-system, "blinkmacsystemfont", "segoe ui", "helvetica", "arial", sans-serif, "apple color emoji", "segoe ui emoji";
+  --fontStackCode: "sfmono-regular", "consolas", "liberation mono", "menlo", "inconsolata", "operator", "monaco", "courier new", courier, monospace;
   --fontSize: 16px;
 }
 

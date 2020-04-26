@@ -1,11 +1,32 @@
 .app {
-  align-items: center;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 100vh;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: auto;
+  padding: 2rem 1rem 1rem 2rem;
+  position: relative;
 }
 
 .app-header {
   text-align: center;
+}
+
+.navigation {
+  display: flex;
+  position: fixed;
+  right: 2rem;
+  top: 1rem;
+  z-index: 100;
+}
+
+.navigation .navigation-button {
+  font-weight: bold;
+  height: 2rem;
+  width: 5.5rem;
+}
+
+.navigation .navigation-button:not(:last-child) {
+  margin-right: 0.5rem;
 }
