@@ -4,8 +4,8 @@
 
   /* Change the behaviour of the 'react-simple-code-editor' to pass the scroll to the App component. */
   overflow: visible !important;
-}
 
-.editor textarea {
-  outline: 0;
+  & textarea {
+    outline: 0;
+  }
 }

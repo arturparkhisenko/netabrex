@@ -7,10 +7,10 @@
   overflow: auto;
   padding: 2rem 1rem 1rem 2rem;
   position: relative;
-}
 
-.app-header {
-  text-align: center;
+  &__header {
+    text-align: center;
+  }
 }
 
 .navigation {
@@ -19,14 +19,19 @@
   right: 2rem;
   top: 1rem;
   z-index: 100;
-}
 
-.navigation .navigation-button {
-  font-weight: bold;
-  height: 2rem;
-  width: 5.5rem;
-}
+  &__button {
+    font-weight: bold;
+    height: 2rem;
+    width: 5.5rem;
+  }
 
-.navigation .navigation-button:not(:last-child) {
-  margin-right: 0.5rem;
+  &__logo {
+    height: 2rem;
+    width: 2rem;
+  }
+
+  &__button:not(:last-child) {
+    margin-right: 0.5rem;
+  }
 }

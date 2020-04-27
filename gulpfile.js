@@ -7,6 +7,8 @@ const path = require('path');
 const postcssImport = require('postcss-import');
 const postcssPresetEnv = require('postcss-preset-env');
 const postcssReporter = require('postcss-reporter');
+const postcssScss = require('postcss-scss');
+const preCss = require('precss');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
@@ -144,17 +146,21 @@ const scripts = done => {
 };
 
 const styles = () =>
-  src('src/styles/index.css')
+  src('src/styles/index.scss')
     .pipe($.if(production === false, $.sourcemaps.init()))
     .pipe(
-      $.postcss([
-        postcssImport(),
-        postcssPresetEnv(),
-        cssnano({ preset: 'advanced' }),
-        postcssReporter()
-      ])
+      $.postcss(
+        [
+          preCss(),
+          postcssImport(),
+          postcssPresetEnv(),
+          cssnano({ preset: 'advanced' }),
+          postcssReporter()
+        ],
+        {parser: postcssScss}
+      )
     )
-    .pipe($.rename({ suffix: '.min' }))
+    .pipe($.rename({extname: '.css', suffix: '.min' }))
     .pipe($.if(production === false, $.sourcemaps.write('./')))
     .pipe(dest('src/styles/'))
     .pipe($.if(production === true, dest(`build/${target}/styles`)))
@@ -240,7 +246,7 @@ const listen = () => {
     series(scripts, reload)
   );
   watch(
-    ['src/styles/**/*.css', '!src/styles/**/*.min.*'],
+    ['src/styles/**/*.scss', '!src/styles/**/*.min.*'],
     series(styles, reload)
   );
   watch(['src/images/**/*'], series(images, reload));

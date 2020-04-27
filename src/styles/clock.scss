@@ -1,0 +1,27 @@
+.clock {
+  align-items: center;
+  background-color: var(--solarizedBase2);
+  border-radius: 0 0 0.25rem 0.25rem;
+  color: var(--colorDark);
+  display: flex;
+  flex-direction: column;
+  left: calc(50% - 3.5rem);
+  padding: 0.1rem;
+  position: fixed;
+  opacity: 0.5;
+  top: 0;
+  width: 7rem;
+  z-index: 100;
+
+  &__date {
+    color: var(--solarizedBase02);
+    font-size: 0.6em;
+  }
+
+  &__time {
+    align-items: center;
+    display: flex;
+    font-size: 0.8rem;
+    margin-top: 0.1rem;
+  }
+}

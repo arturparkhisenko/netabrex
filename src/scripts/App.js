@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { useStoreon } from 'storeon/react';
 
+import { Clock } from './clock';
 import * as Constants from './constants';
 import { Editor } from './editor';
 import Logo from '../icons/logo.svg';
@@ -17,7 +18,7 @@ export function App(props) {
     <div className="app">
       <nav className="navigation">
         <Button
-          className="button navigation-button"
+          className="button navigation__button"
           onClick={props.toggleMode}
           title={modeText}
         >
@@ -30,7 +31,7 @@ export function App(props) {
         </Button>
 
         <a
-          className="logo navigation-button"
+          className="logo navigation__logo"
           href="https://arturparkhisenko.github.io/netabrex/"
           rel="noopener noreferrer"
           target="_blank"
@@ -39,6 +40,8 @@ export function App(props) {
           <Logo />
         </a>
       </nav>
+
+      <Clock />
 
       {mode === Constants.MODE_PREVIEW ? <Preview /> : <Editor />}
     </div>
