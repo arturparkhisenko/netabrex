@@ -20,16 +20,29 @@ export function saveJson(object, fileName) {
   href.remove();
 }
 
+export function createInputFileJson() {
+  let input = document.createElement('input');
+
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'application/JSON');
+
+  return input;
+}
+
 /**
  * Loads JSON content once from the file on the file input change.
  *
- * @param {string} fileInputId example 'uploader' for <input type="file" id="uploader" />
+ * @param {string?} fileInputId example 'uploader' for <input type="file" id="uploader" />
+ * @returns {Promise}
  */
-export function loadJson(fileInputId) {
+export function loadJson(fileInputId = null) {
   let file, input, reader;
 
   return new Promise((resolve, reject) => {
-    input = document.getElementById(fileInputId);
+    input =
+      fileInputId !== null
+        ? document.getElementById(fileInputId)
+        : createInputFileJson();
 
     if (input !== null) {
       input.addEventListener(
@@ -41,7 +54,7 @@ export function loadJson(fileInputId) {
             reader = new FileReader();
 
             reader.onload = event => {
-              resolve(event.target.result);
+              resolve(JSON.parse(event.target.result));
             };
             reader.onerror = reject;
 
@@ -53,6 +66,8 @@ export function loadJson(fileInputId) {
           once: true
         }
       );
+
+      input.click();
     }
   });
 }

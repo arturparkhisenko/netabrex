@@ -7,7 +7,8 @@ import { connectStoreon } from 'storeon/react';
 
 hljs.registerLanguage('markdown', markdown);
 
-class Editor extends React.PureComponent {
+// The React Pure Component could not be used there because Simple Code Editor isn't pure
+class Editor extends React.Component {
   editorChange = code => this.props.dispatch('setData', code);
 
   highlight = code => hljs.highlight('markdown', code).value;

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 import { StoreContext } from 'storeon/react';
 
 import * as Constants from './constants';
@@ -9,6 +10,9 @@ import { createStore } from './store';
 export class MainController {
   constructor() {
     this.store = createStore();
+
+    // Make sure to bind modal to your appElement @see http://reactcommunity.org/react-modal/accessibility/
+    Modal.setAppElement('#root');
   }
 
   main() {

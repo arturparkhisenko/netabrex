@@ -23,12 +23,11 @@
   &__button {
     font-weight: bold;
     height: 2rem;
-    width: 5.5rem;
+    min-width: 2rem;
   }
 
-  &__logo {
-    height: 2rem;
-    width: 2rem;
+  &__button-mode {
+    width: 5.5rem;
   }
 
   &__button:not(:last-child) {

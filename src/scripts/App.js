@@ -7,8 +7,8 @@ import { useStoreon } from 'storeon/react';
 import { Clock } from './clock';
 import * as Constants from './constants';
 import { Editor } from './editor';
-import Logo from '../icons/logo.svg';
 import { Preview } from './preview';
+import { Settings } from './settings';
 
 export function App(props) {
   const { dispatch, mode } = useStoreon('mode');
@@ -18,7 +18,7 @@ export function App(props) {
     <div className="app">
       <nav className="navigation">
         <Button
-          className="button navigation__button"
+          className="button navigation__button navigation__button-mode"
           onClick={props.toggleMode}
           title={modeText}
         >
@@ -30,15 +30,7 @@ export function App(props) {
           {modeText}
         </Button>
 
-        <a
-          className="logo navigation__logo"
-          href="https://arturparkhisenko.github.io/netabrex/"
-          rel="noopener noreferrer"
-          target="_blank"
-          title="Netabrex"
-        >
-          <Logo />
-        </a>
+        <Settings />
       </nav>
 
       <Clock />
