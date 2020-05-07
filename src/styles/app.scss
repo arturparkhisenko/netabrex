@@ -1,0 +1,36 @@
+.app {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: auto;
+  padding: 2rem 1rem 1rem 2rem;
+  position: relative;
+
+  &__header {
+    text-align: center;
+  }
+}
+
+.navigation {
+  display: flex;
+  position: fixed;
+  right: 2rem;
+  top: 1rem;
+  z-index: 100;
+
+  &__button {
+    font-weight: bold;
+    height: 2rem;
+    min-width: 2rem;
+  }
+
+  &__button-mode {
+    width: 5.5rem;
+  }
+
+  &__button:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+}

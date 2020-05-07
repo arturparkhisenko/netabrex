@@ -1,0 +1,11 @@
+.editor {
+  font-family: var(--fontStackCode);
+  height: 100%;
+
+  /* Change the behaviour of the 'react-simple-code-editor' to pass the scroll to the App component. */
+  overflow: visible !important;
+
+  & textarea {
+    outline: 0;
+  }
+}

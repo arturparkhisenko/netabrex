@@ -1,0 +1,48 @@
+/* @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
+
+:root {
+  /* Color Palette @see https='//en.wikipedia.org/wiki/List_of_video_game_console_palettes#NES */
+  --color1A: #00a800;
+  --color2A: #58d854;
+
+  /* Solarized Colors */
+  --solarizedBase03: #002b36;
+  --solarizedBase02: #073642;
+  --solarizedBase01: #586e75;
+  --solarizedBase00: #657b83;
+  --solarizedBase0: #839496;
+  --solarizedBase1: #93a1a1;
+  --solarizedBase2: #eee8d5;
+  --solarizedBase3: #fdf6e3;
+  --solarizedYellow: #b58900;
+  --solarizedOrange: #cb4b16;
+  --solarizedRed: #dc322f;
+  --solarizedMagenta: #d33682;
+  --solarizedViolet: #6c71c4;
+  --solarizedBlue: #268bd2;
+  --solarizedCyan: #2aa198;
+  --solarizedGreen: #859900;
+
+  /* Colors */
+  --colorLight: #f5f5f5;
+  --colorDark: #252525;
+  --colorPrimary: var(--color1A);
+  --colorSecondary: var(--color2A);
+  --colorSolarizedLightBackground: var(--solarizedBase2);
+  --colorSolarizedDarkBackground: var(--solarizedBase01);
+
+  /* Focus */
+  --colorFocus: rgba(0, 100, 255, 0.4) 0 0 0 0.2rem;
+
+  /* Fonts */
+  --fontStack: -apple-system, "blinkmacsystemfont", "segoe ui", "helvetica", "arial", sans-serif, "apple color emoji", "segoe ui emoji";
+  --fontStackCode: "sfmono-regular", "consolas", "liberation mono", "menlo", "inconsolata", "operator", "monaco", "courier new", courier, monospace;
+  --fontSize: 16px;
+}
+
+/* Apple dark theme support */
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+  }
+} */

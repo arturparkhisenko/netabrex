@@ -1,0 +1,12 @@
+/* @see https://raw.githubusercontent.com/PrismJS/prism/master/themes/prism-solarizedlight.css */
+@import "./../../node_modules/highlight.js/scss/solarized-light.scss"; // or dark
+
+/* Global */
+@import "./variables.scss";
+@import "./general.scss";
+
+/* Components */
+@import "./clock.scss";
+@import "./editor.scss";
+@import "./preview.scss";
+@import "./app.scss";
