@@ -5,14 +5,16 @@ import { App } from '../scripts/App';
 import { StoreContext } from 'storeon/react';
 import { createStore } from './../scripts/store';
 
-let Wrapper;
+let element, Wrapper, store, toggleMode;
 
 beforeEach(() => {
+  store = createStore();
+  toggleMode = function (){};
   Wrapper = function Wrapper() {
     return (
       <React.StrictMode>
-        <StoreContext.Provider value={createStore()}>
-          <App toggleMode={() => undefined} />
+        <StoreContext.Provider value={store}>
+          <App toggleMode={toggleMode} />
         </StoreContext.Provider>
       </React.StrictMode>
     );
@@ -21,14 +23,23 @@ beforeEach(() => {
 
 test('renders navigation', () => {
   let { getByTitle } = render(<Wrapper />);
-  let element = getByTitle(/Netabrex/i);
+  element = getByTitle(/Preview/i);
 
   expect(element).toBeInTheDocument();
 });
 
 test('renders editor', () => {
   let { getAllByText } = render(<Wrapper />);
-  let element = getAllByText(/Hello/i);
+  element = getAllByText(/Hello/i);
+
+  expect(element).resolves;
+});
+
+test('renders preview', () => {
+  store.dispatch('setMode', 'preview');
+
+  let { getAllByText } = render(<Wrapper />);
+  element = getAllByText(/Edit/i);
 
   expect(element).resolves;
 });
