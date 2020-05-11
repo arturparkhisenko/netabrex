@@ -1,3 +1,7 @@
+export const isDarkMode = () =>
+  window.matchMedia &&
+  window.matchMedia('(prefers-color-scheme: dark)').matches;
+
 /**
  * Downloads the file in a JSON format.
  *

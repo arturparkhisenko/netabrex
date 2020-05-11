@@ -9,14 +9,15 @@ import { useStoreon } from 'storeon/react';
 import Modal from 'react-modal';
 
 import Logo from '../icons/logo.svg';
-import { loadJson, saveJson } from './utils';
 import packageInfo from '../../package.json';
+import { Toggler } from './toggler';
+import { loadJson, saveJson } from './utils';
 
 export function Settings() {
   // Local state here is only because initial thought it would affect all tabs. We can ignore it in sync plugin
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { dispatch, data } = useStoreon('data');
+  const { dispatch, darkMode, data } = useStoreon('darkMode', 'data');
 
   function openModal() {
     setModalOpen(true);
@@ -44,6 +45,10 @@ export function Settings() {
       .then(({ data }) => {
         dispatch('setData', data);
       });
+  }
+
+  function toggleDarkMode(value) {
+    dispatch('setDarkMode', value);
   }
 
   return (
@@ -90,6 +95,14 @@ export function Settings() {
           <Octicon icon={CloudUpload} aria-hidden="true" />
           &nbsp;Import data
         </Button>
+        <br />
+        <div style={{ padding: '1rem 0' }}>
+          <Toggler
+            checked={darkMode}
+            label="Dark theme"
+            toggle={toggleDarkMode}
+          />
+        </div>
         <hr />
         <a
           className="logo"

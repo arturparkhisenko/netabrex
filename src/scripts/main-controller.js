@@ -5,7 +5,7 @@ import { StoreContext } from 'storeon/react';
 
 import * as Constants from './constants';
 import { App } from './app';
-import { createStore } from './store';
+import { createStore, SET_DARK_MODE } from './store';
 
 export class MainController {
   constructor() {
@@ -13,6 +13,27 @@ export class MainController {
 
     // Make sure to bind modal to your appElement @see http://reactcommunity.org/react-modal/accessibility/
     Modal.setAppElement('#root');
+
+    this.addObservers();
+    this.triggerInitialState();
+  }
+
+  addObservers() {
+    this.store.on('@dispatch', (state, [event, data]) => {
+      switch (event) {
+        case SET_DARK_MODE:
+          this.darkModeDidChange(data);
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  darkModeDidChange(value) {
+    let operation = value === true ? 'add' : 'remove';
+
+    document.body.classList[operation]('dark');
   }
 
   main() {
@@ -36,4 +57,10 @@ export class MainController {
 
     this.store.dispatch('setMode', mode);
   };
+
+  triggerInitialState() {
+    let state = this.store.get();
+
+    this.darkModeDidChange(state.darkMode);
+  }
 }

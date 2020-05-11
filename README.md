@@ -1,7 +1,6 @@
 # netabrex
 
-> The browser extension to replace browser new Tab
-> No Third-Party Tracking, No Advertising Services, No Cookies
+> The browser extension to replace browser new Tab. No Third-Party Tracking, No Advertising, No Cookies
 
 ## Developing
 
