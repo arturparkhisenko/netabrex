@@ -1,6 +1,6 @@
 /* @see https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties */
 
-:root {
+body {
   /* Color Palette @see https='//en.wikipedia.org/wiki/List_of_video_game_console_palettes#NES */
   --color1A: #00a800;
   --color2A: #58d854;
@@ -28,8 +28,9 @@
   --colorDark: #252525;
   --colorPrimary: var(--color1A);
   --colorSecondary: var(--color2A);
-  --colorSolarizedLightBackground: var(--solarizedBase2);
-  --colorSolarizedDarkBackground: var(--solarizedBase01);
+  --colorSolarizedLightBackground: var(--solarizedBase3);
+  --colorSolarizedDarkBackground: var(--solarizedBase03);
+  --bg: var(--colorSolarizedLightBackground);
 
   /* Focus */
   --colorFocus: rgba(0, 100, 255, 0.4) 0 0 0 0.2rem;
@@ -40,9 +41,6 @@
   --fontSize: 16px;
 }
 
-/* Apple dark theme support */
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-  }
-} */
+body.dark {
+  --bg: var(--colorSolarizedDarkBackground);
+}
