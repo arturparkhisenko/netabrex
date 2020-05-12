@@ -2,6 +2,8 @@
 
 > The browser extension to replace browser new Tab. No Third-Party Tracking, No Advertising, No Cookies
 
+![Netabrex preview](resources/preview-v0.1.0.gif)
+
 ## Developing
 
 - `npm run chrome-watch`
