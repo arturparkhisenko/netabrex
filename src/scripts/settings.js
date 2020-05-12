@@ -1,12 +1,10 @@
-import { Button } from 'reakit/Button';
-import Octicon, {
-  CloudDownload,
-  CloudUpload,
-  Gear
-} from '@primer/octicons-react';
+import Button from '@material-ui/core/Button';
+import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined';
+import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import React, { useState } from 'react';
 import { useStoreon } from 'storeon/react';
 import Modal from 'react-modal';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import Logo from '../icons/logo.svg';
 import packageInfo from '../../package.json';
@@ -58,7 +56,7 @@ export function Settings() {
         onClick={openModal}
         title="Menu"
       >
-        <Octicon icon={Gear} aria-hidden="true" />
+        <SettingsIcon />
       </Button>
 
       <Modal
@@ -83,7 +81,7 @@ export function Settings() {
           onClick={exportData}
           title="Export data to the file"
         >
-          <Octicon icon={CloudDownload} aria-hidden="true" />
+          <CloudDownloadOutlinedIcon />
           &nbsp;Export Data
         </Button>
         &nbsp;
@@ -92,7 +90,7 @@ export function Settings() {
           onClick={importData}
           title="Import data from the file"
         >
-          <Octicon icon={CloudUpload} aria-hidden="true" />
+          <CloudUploadOutlinedIcon />
           &nbsp;Import data
         </Button>
         <br />

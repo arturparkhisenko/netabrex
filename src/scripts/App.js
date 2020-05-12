@@ -1,8 +1,9 @@
-import { Button } from 'reakit/Button';
-import Octicon, { Markdown, Pencil } from '@primer/octicons-react';
+import Button from '@material-ui/core/Button';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useStoreon } from 'storeon/react';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 
 import { Clock } from './clock';
 import * as Constants from './constants';
@@ -22,10 +23,11 @@ export function App(props) {
           onClick={props.toggleMode}
           title={modeText}
         >
-          <Octicon
-            icon={mode === Constants.MODE_PREVIEW ? Pencil : Markdown}
-            aria-hidden="true"
-          />
+          {mode === Constants.MODE_PREVIEW ? (
+            <EditOutlinedIcon />
+          ) : (
+            <VisibilityOutlinedIcon />
+          )}
           &nbsp;
           {modeText}
         </Button>

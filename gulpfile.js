@@ -65,84 +65,85 @@ const pipe = (source, ...transforms) =>
 const scripts = done => {
   // Use it to upgrade to the new Webpack
   // process.traceDeprecation = true;
-
-  webpack(
-    {
-      context: path.resolve(__dirname, 'src'),
-      entry: './scripts/index.js',
-      performance: { hints: 'warning' },
-      mode: production === true ? 'production' : 'development',
-      devtool: production === true ? false : 'source-map',
-      output: {
-        path: path.resolve(__dirname, 'src/scripts'),
-        filename: 'index.min.js'
-      },
-      module: {
-        rules: [
-          {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                cacheDirectory: true
-              }
+  let config = {
+    context: path.resolve(__dirname, 'src'),
+    entry: './scripts/index.js',
+    performance: { hints: 'warning' },
+    mode: production === true ? 'production' : 'development',
+    devtool: production === true ? false : 'cheap-module-eval-source-map', // 'source-map'
+    output: {
+      path: path.resolve(__dirname, 'src/scripts'),
+      filename: 'index.min.js'
+    },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true
             }
-          },
-          {
-            test: /\.svg$/,
-            use: ['@svgr/webpack']
           }
-        ]
-      },
-      optimization: {
-        minimizer: [
-          new TerserWebpackPlugin({
-            sourceMap: production === false,
-            terserOptions: {
-              output: {
-                comments: false
-              }
-            },
-            extractComments: false
-          })
-        ]
-      },
-      plugins: [
-        new webpack.DefinePlugin({
-          DEBUG: JSON.stringify(production !== true)
-        })
+        },
+        {
+          test: /\.svg$/,
+          use: ['@svgr/webpack']
+        }
       ]
     },
-    (err, stats) => {
-      if (err) {
-        throw new Error('webpack', err);
-      }
+    plugins: [
+      new webpack.DefinePlugin({
+        DEBUG: JSON.stringify(production !== true)
+      })
+    ]
+  };
 
-      if (production === false) {
-        console.log(
-          '[webpack]',
-          stats.toString({
-            all: false,
-            colors: true,
-            builtAt: true,
-            errors: true,
-            errorDetails: true,
-            timings: true
-          })
-        );
-        console.log('[webpack]', 'Packed successfully!');
-      }
+  if (production === true) {
+    config.optimization = {
+      minimizer: [
+        new TerserWebpackPlugin({
+          sourceMap: false,
+          terserOptions: {
+            output: {
+              comments: false
+            }
+          },
+          extractComments: false
+        })
+      ]
+    };
+  }
 
-      if (production === true) {
-        src('src/scripts/index.min.js')
-          .pipe($.plumber())
-          .pipe(dest(`build/${target}/scripts`));
-      }
-
-      done();
+  webpack(config, (err, stats) => {
+    if (err) {
+      throw new Error('webpack', err);
     }
-  );
+
+    if (production === false) {
+      console.log(
+        '[webpack]',
+        stats.toString({
+          all: false,
+          colors: true,
+          builtAt: true,
+          errors: true,
+          errorDetails: true,
+          timings: true
+        })
+      );
+      console.log('[webpack]', 'Packed successfully!');
+    }
+
+    if (production === true) {
+      src('src/scripts/index.min.js')
+        .pipe($.plumber())
+        .pipe(dest(`build/${target}/scripts`));
+    }
+
+    done();
+  });
 };
 
 const styles = () =>
@@ -157,10 +158,10 @@ const styles = () =>
           cssnano({ preset: 'advanced' }),
           postcssReporter()
         ],
-        {parser: postcssScss}
+        { parser: postcssScss }
       )
     )
-    .pipe($.rename({extname: '.css', suffix: '.min' }))
+    .pipe($.rename({ extname: '.css', suffix: '.min' }))
     .pipe($.if(production === false, $.sourcemaps.write('./')))
     .pipe(dest('src/styles/'))
     .pipe($.if(production === true, dest(`build/${target}/styles`)))
