@@ -1,0 +1,12 @@
+@import "variables";
+
+.settings-modal {
+  & .ReactModal__Content {
+    z-index: $zIndexModal;
+  }
+
+  & .toggler-dark-theme label {
+    display: flex;
+    align-items: center;
+  }
+}

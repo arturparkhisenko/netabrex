@@ -1,5 +1,4 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
@@ -12,7 +11,6 @@ import { createStore, SET_DARK_MODE } from './store';
 export class MainController {
   constructor() {
     this.store = createStore();
-    this.theme = createMuiTheme({});
 
     // Make sure to bind modal to your appElement @see http://reactcommunity.org/react-modal/accessibility/
     Modal.setAppElement('#root');
@@ -44,9 +42,7 @@ export class MainController {
       <React.StrictMode>
         <CssBaseline />
         <StoreContext.Provider value={this.store}>
-          <ThemeProvider theme={this.theme}>
-            <App toggleMode={this.toggleMode} />
-          </ThemeProvider>
+          <App toggleMode={this.toggleMode} />
         </StoreContext.Provider>
       </React.StrictMode>,
       document.getElementById('root')

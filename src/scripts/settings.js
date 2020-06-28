@@ -1,4 +1,5 @@
 import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
 import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined';
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import React, { useState } from 'react';
@@ -50,9 +51,9 @@ export function Settings() {
   }
 
   return (
-    <div>
+    <div className="settings">
       <Button
-        className="button navigation__button"
+        className="navigation__button"
         onClick={openModal}
         title="Menu"
       >
@@ -60,10 +61,10 @@ export function Settings() {
       </Button>
 
       <Modal
+        overlayClassName="Overlay settings-modal"
         isOpen={modalOpen}
         onRequestClose={closeModal}
-        style={{ overlay: { zIndex: 100 } }}
-        contentLabel="Example Modal"
+        contentLabel="Settings"
       >
         <Button
           onClick={closeModal}
@@ -73,11 +74,10 @@ export function Settings() {
             right: '1rem'
           }}
         >
-          Close
+          <CloseIcon />
         </Button>
         <h2 style={{ marginTop: 0 }}>Settings</h2>
         <Button
-          className="button"
           onClick={exportData}
           title="Export data to the file"
         >
@@ -86,7 +86,6 @@ export function Settings() {
         </Button>
         &nbsp;
         <Button
-          className="button"
           onClick={importData}
           title="Import data from the file"
         >
@@ -94,7 +93,7 @@ export function Settings() {
           &nbsp;Import data
         </Button>
         <br />
-        <div style={{ padding: '1rem 0' }}>
+        <div className="toggler-dark-theme">
           <Toggler
             checked={darkMode}
             label="Dark theme"

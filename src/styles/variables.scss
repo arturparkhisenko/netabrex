@@ -44,3 +44,7 @@ body {
 body.dark {
   --bg: var(--colorSolarizedDarkBackground);
 }
+
+// z-index'es globals for the app
+$zIndexNavigation: 100;
+$zIndexModal: 300;
