@@ -1,8 +1,8 @@
-import CssBaseline from '@material-ui/core/CssBaseline';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 import { StoreContext } from 'storeon/react';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import * as Constants from './constants';
 import { App } from './app';
@@ -11,6 +11,8 @@ import { createStore, SET_DARK_MODE } from './store';
 export class MainController {
   constructor() {
     this.store = createStore();
+    this.themes = {};
+    this.theme = this.getTheme();
 
     // Make sure to bind modal to your appElement @see http://reactcommunity.org/react-modal/accessibility/
     Modal.setAppElement('#root');
@@ -31,19 +33,34 @@ export class MainController {
     });
   }
 
+  getTheme(theme = 'light') {
+    let result = this.themes[theme] || null;
+
+    if (result === null) {
+      this.themes[theme] = createMuiTheme({ palette: { type: theme } });
+      result = this.themes[theme];
+    }
+
+    return result;
+  }
+
   darkModeDidChange(value) {
     let operation = value === true ? 'add' : 'remove';
+    let theme = value === true ? 'dark' : 'light';
 
     document.body.classList[operation]('dark');
+    this.theme = this.getTheme(theme);
+    this.main();
   }
 
   main() {
     ReactDOM.render(
       <React.StrictMode>
-        <CssBaseline />
-        <StoreContext.Provider value={this.store}>
-          <App toggleMode={this.toggleMode} />
-        </StoreContext.Provider>
+        <ThemeProvider theme={this.theme}>
+          <StoreContext.Provider value={this.store}>
+            <App toggleMode={this.toggleMode} />
+          </StoreContext.Provider>
+        </ThemeProvider>
       </React.StrictMode>,
       document.getElementById('root')
     );

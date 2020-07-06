@@ -52,19 +52,16 @@ export function Settings() {
 
   return (
     <div className="settings">
-      <Button
-        className="navigation__button"
-        onClick={openModal}
-        title="Menu"
-      >
+      <Button className="navigation__button" onClick={openModal} title="Menu">
         <SettingsIcon />
       </Button>
 
       <Modal
-        overlayClassName="Overlay settings-modal"
+        contentLabel="Settings"
         isOpen={modalOpen}
         onRequestClose={closeModal}
-        contentLabel="Settings"
+        overlayClassName="Overlay settings-modal"
+        style={{ content: { background: 'var(--bg)' } }}
       >
         <Button
           onClick={closeModal}
@@ -77,18 +74,12 @@ export function Settings() {
           <CloseIcon />
         </Button>
         <h2 style={{ marginTop: 0 }}>Settings</h2>
-        <Button
-          onClick={exportData}
-          title="Export data to the file"
-        >
+        <Button onClick={exportData} title="Export data to the file">
           <CloudDownloadOutlinedIcon />
           &nbsp;Export Data
         </Button>
         &nbsp;
-        <Button
-          onClick={importData}
-          title="Import data from the file"
-        >
+        <Button onClick={importData} title="Import data from the file">
           <CloudUploadOutlinedIcon />
           &nbsp;Import data
         </Button>
