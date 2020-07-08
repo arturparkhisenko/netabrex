@@ -18,7 +18,7 @@ export function App(props) {
     <div className="app">
       <nav className="navigation">
         <Button
-          className="navigation__button navigation__button-mode"
+          className="navigation__button"
           onClick={props.toggleMode}
           title={modeText}
         >

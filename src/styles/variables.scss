@@ -39,9 +39,11 @@ body {
   --fontStack: -apple-system, "blinkmacsystemfont", "segoe ui", "helvetica", "arial", sans-serif, "apple color emoji", "segoe ui emoji";
   --fontStackCode: "sfmono-regular", "consolas", "liberation mono", "menlo", "inconsolata", "operator", "monaco", "courier new", courier, monospace;
   --fontSize: 16px;
+  --fontColor: var(--colorDark);
 }
 
 body.dark {
+  --fontColor: var(--colorLight);
   --bg: var(--colorSolarizedDarkBackground);
 }
 
