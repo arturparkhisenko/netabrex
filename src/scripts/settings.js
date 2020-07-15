@@ -4,10 +4,10 @@ import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import React, { useState } from 'react';
 import { useStoreon } from 'storeon/react';
-import Modal from 'react-modal';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 import Logo from '../icons/logo.svg';
+import { Modal } from './modal';
 import packageInfo from '../../package.json';
 import { Toggler } from './toggler';
 import { loadJson, saveJson } from './utils';
@@ -48,6 +48,8 @@ export function Settings() {
 
   function toggleDarkMode(value) {
     dispatch('setDarkMode', value);
+    // FIXME apply the new theme, ther's some weird theme issue if you'll change it dynamically
+    location.reload();
   }
 
   return (
@@ -56,13 +58,7 @@ export function Settings() {
         <SettingsIcon />
       </Button>
 
-      <Modal
-        contentLabel="Settings"
-        isOpen={modalOpen}
-        onRequestClose={closeModal}
-        overlayClassName="Overlay settings-modal"
-        style={{ content: { background: 'var(--bg)' } }}
-      >
+      <Modal isOpen={modalOpen}>
         <Button
           onClick={closeModal}
           style={{
