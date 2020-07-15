@@ -92,7 +92,7 @@ export const createStore = () => {
   ];
 
   if (DEBUG) {
-    plugins = [storeonLogger];
+    plugins = [persistState(), storeonLogger];
   }
 
   return createStoreon([initStore, ...plugins]);
