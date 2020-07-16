@@ -1,10 +1,10 @@
-import { Button } from 'reakit/Button';
-import Octicon, { Markdown, Pencil } from '@primer/octicons-react';
+import Button from '@material-ui/core/Button';
+import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useStoreon } from 'storeon/react';
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 
-import { Clock } from './clock';
 import * as Constants from './constants';
 import { Editor } from './editor';
 import { Preview } from './preview';
@@ -18,22 +18,19 @@ export function App(props) {
     <div className="app">
       <nav className="navigation">
         <Button
-          className="button navigation__button navigation__button-mode"
+          className="navigation__button"
           onClick={props.toggleMode}
           title={modeText}
         >
-          <Octicon
-            icon={mode === Constants.MODE_PREVIEW ? Pencil : Markdown}
-            aria-hidden="true"
-          />
-          &nbsp;
-          {modeText}
+          {mode === Constants.MODE_PREVIEW ? (
+            <EditOutlinedIcon />
+          ) : (
+            <VisibilityOutlinedIcon />
+          )}
         </Button>
 
         <Settings />
       </nav>
-
-      <Clock />
 
       {mode === Constants.MODE_PREVIEW ? <Preview /> : <Editor />}
     </div>

@@ -1,26 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Modal from 'react-modal';
 import { StoreContext } from 'storeon/react';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import * as Constants from './constants';
 import { App } from './app';
-import { createStore } from './store';
+import { createStore, SET_DARK_MODE } from './store';
+import { getTheme } from './utils';
 
 export class MainController {
   constructor() {
     this.store = createStore();
+    this.theme = getTheme();
 
-    // Make sure to bind modal to your appElement @see http://reactcommunity.org/react-modal/accessibility/
-    Modal.setAppElement('#root');
+    this.addObservers();
+    this.triggerInitialState();
+  }
+
+  addObservers() {
+    this.store.on('@dispatch', (state, [event, data]) => {
+      switch (event) {
+        case SET_DARK_MODE:
+          this.darkModeDidChange(data);
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  darkModeDidChange(value) {
+    let operation = value === true ? 'add' : 'remove';
+
+    document.body.classList[operation]('dark');
+    this.theme = getTheme(value === true ? 'dark' : 'light');
+
+    // FIXME apply the new theme, ther's some weird theme issue if you'll change it dynamically
+    this.main();
   }
 
   main() {
     ReactDOM.render(
       <React.StrictMode>
-        <StoreContext.Provider value={this.store}>
-          <App toggleMode={this.toggleMode} />
-        </StoreContext.Provider>
+        <ThemeProvider theme={this.theme}>
+          <StoreContext.Provider value={this.store}>
+            <App toggleMode={this.toggleMode} />
+          </StoreContext.Provider>
+        </ThemeProvider>
       </React.StrictMode>,
       document.getElementById('root')
     );
@@ -36,4 +62,10 @@ export class MainController {
 
     this.store.dispatch('setMode', mode);
   };
+
+  triggerInitialState() {
+    let state = this.store.get();
+
+    this.darkModeDidChange(state.darkMode);
+  }
 }

@@ -1,22 +1,22 @@
-import { Button } from 'reakit/Button';
-import Octicon, {
-  CloudDownload,
-  CloudUpload,
-  Gear
-} from '@primer/octicons-react';
+import Button from '@material-ui/core/Button';
+import CloseIcon from '@material-ui/icons/Close';
+import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined';
+import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
 import React, { useState } from 'react';
 import { useStoreon } from 'storeon/react';
-import Modal from 'react-modal';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 import Logo from '../icons/logo.svg';
-import { loadJson, saveJson } from './utils';
+import { Modal } from './modal';
 import packageInfo from '../../package.json';
+import { Toggler } from './toggler';
+import { loadJson, saveJson } from './utils';
 
 export function Settings() {
   // Local state here is only because initial thought it would affect all tabs. We can ignore it in sync plugin
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { dispatch, data } = useStoreon('data');
+  const { dispatch, darkMode, data } = useStoreon('darkMode', 'data');
 
   function openModal() {
     setModalOpen(true);
@@ -46,22 +46,17 @@ export function Settings() {
       });
   }
 
+  function toggleDarkMode(value) {
+    dispatch('setDarkMode', value);
+  }
+
   return (
-    <div>
-      <Button
-        className="button navigation__button"
-        onClick={openModal}
-        title="Menu"
-      >
-        <Octicon icon={Gear} aria-hidden="true" />
+    <div className="settings">
+      <Button className="navigation__button" onClick={openModal} title="Menu">
+        <SettingsIcon />
       </Button>
 
-      <Modal
-        isOpen={modalOpen}
-        onRequestClose={closeModal}
-        style={{ overlay: { zIndex: 100 } }}
-        contentLabel="Example Modal"
-      >
+      <Modal isOpen={modalOpen}>
         <Button
           onClick={closeModal}
           style={{
@@ -70,26 +65,27 @@ export function Settings() {
             right: '1rem'
           }}
         >
-          Close
+          <CloseIcon />
         </Button>
         <h2 style={{ marginTop: 0 }}>Settings</h2>
-        <Button
-          className="button"
-          onClick={exportData}
-          title="Export data to the file"
-        >
-          <Octicon icon={CloudDownload} aria-hidden="true" />
+        <hr />
+        <Button onClick={exportData} title="Export data to the file">
+          <CloudDownloadOutlinedIcon />
           &nbsp;Export Data
         </Button>
         &nbsp;
-        <Button
-          className="button"
-          onClick={importData}
-          title="Import data from the file"
-        >
-          <Octicon icon={CloudUpload} aria-hidden="true" />
+        <Button onClick={importData} title="Import data from the file">
+          <CloudUploadOutlinedIcon />
           &nbsp;Import data
         </Button>
+        <br />
+        <div className="toggler-dark-theme">
+          <Toggler
+            checked={darkMode}
+            label="Dark theme"
+            toggle={toggleDarkMode}
+          />
+        </div>
         <hr />
         <a
           className="logo"
