@@ -1,6 +1,6 @@
 {
   "name": "netabrex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The browser extension to replace browser new Tab",
   "author": "Artur Parkhisenko <ikeagold@gmail.com> (https://arturparkhisenko.github.io/)",
   "engineStrict": true,
