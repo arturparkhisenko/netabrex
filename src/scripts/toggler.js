@@ -9,7 +9,15 @@ export const Toggler = ({ checked, label, toggle }) => {
 
   // @see https://allyjs.io/data-tables/focusable.html#label-element
   return (
-    <label style={{ cursor: 'pointer', display: 'flex', userSelect: 'none' }} tabIndex="-1">
+    <label
+      style={{
+        alignItems: 'center',
+        cursor: 'pointer',
+        display: 'flex',
+        userSelect: 'none'
+      }}
+      tabIndex="-1"
+    >
       <Checkbox checked={checked} onChange={checkBoxToggle} />
       {label}
     </label>

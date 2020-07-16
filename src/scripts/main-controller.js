@@ -34,6 +34,8 @@ export class MainController {
 
     document.body.classList[operation]('dark');
     this.theme = getTheme(value === true ? 'dark' : 'light');
+
+    // FIXME apply the new theme, ther's some weird theme issue if you'll change it dynamically
     this.main();
   }
 

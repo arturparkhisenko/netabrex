@@ -48,8 +48,6 @@ export function Settings() {
 
   function toggleDarkMode(value) {
     dispatch('setDarkMode', value);
-    // FIXME apply the new theme, ther's some weird theme issue if you'll change it dynamically
-    location.reload();
   }
 
   return (
@@ -70,6 +68,7 @@ export function Settings() {
           <CloseIcon />
         </Button>
         <h2 style={{ marginTop: 0 }}>Settings</h2>
+        <hr />
         <Button onClick={exportData} title="Export data to the file">
           <CloudDownloadOutlinedIcon />
           &nbsp;Export Data
