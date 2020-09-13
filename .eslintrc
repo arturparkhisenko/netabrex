@@ -27,11 +27,18 @@
   },
   "plugins": ["react", "react-hooks", "jsx-a11y", "jest-dom"],
   "rules": {
-    "function-paren-newline": 0,
+    "arrow-parens": ["warn", "as-needed"],
+    "comma-dangle": "error",
+    "function-paren-newline": "off",
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error",
     "react/jsx-no-bind": "error",
     "semi": "error",
     "quotes": ["warn", "single"]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

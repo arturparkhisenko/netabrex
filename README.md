@@ -31,4 +31,4 @@ Run `npm run dist` to create a zipped, production-ready extension for each brows
 - [Chrome APIs](https://developer.chrome.com/apps/api_index)
 - [MDN WebExtensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
 
-## [MIT License](LICENSE.md)
+## [MIT License](LICENSE)

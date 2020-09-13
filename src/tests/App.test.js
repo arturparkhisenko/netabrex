@@ -38,8 +38,8 @@ test('renders editor', () => {
 test('renders preview', () => {
   store.dispatch('setMode', 'preview');
 
-  let { getAllByText } = render(<Wrapper />);
-  element = getAllByText(/Edit/i);
+  let { getAllByTitle } = render(<Wrapper />);
+  element = getAllByTitle(/Edit/i);
 
   expect(element).resolves;
 });
