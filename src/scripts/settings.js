@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { useStoreon } from 'storeon/react';
 import SettingsIcon from '@material-ui/icons/Settings';
 
+import * as Constants from './constants';
 import Logo from '../icons/logo.svg';
 import { Modal } from './modal';
 import packageInfo from '../../package.json';
@@ -16,7 +17,7 @@ export function Settings() {
   // Local state here is only because initial thought it would affect all tabs. We can ignore it in sync plugin
   const [modalOpen, setModalOpen] = useState(false);
 
-  const { dispatch, darkMode, data } = useStoreon('darkMode', 'data');
+  const { dispatch, data, theme } = useStoreon('data', 'theme');
 
   function openModal() {
     setModalOpen(true);
@@ -46,8 +47,11 @@ export function Settings() {
       });
   }
 
-  function toggleDarkMode(value) {
-    dispatch('setDarkMode', value);
+  function toggleDarkTheme(value) {
+    dispatch(
+      'setTheme',
+      value === true ? Constants.THEME_DARK : Constants.THEME_LIGHT
+    );
   }
 
   return (
@@ -56,7 +60,7 @@ export function Settings() {
         <SettingsIcon />
       </Button>
 
-      <Modal isOpen={modalOpen}>
+      <Modal handleClose={closeModal} isOpen={modalOpen}>
         <Button
           onClick={closeModal}
           style={{
@@ -81,9 +85,9 @@ export function Settings() {
         <br />
         <div className="toggler-dark-theme">
           <Toggler
-            checked={darkMode}
+            checked={theme === Constants.THEME_DARK}
             label="Dark theme"
-            toggle={toggleDarkMode}
+            toggle={toggleDarkTheme}
           />
         </div>
         <hr />

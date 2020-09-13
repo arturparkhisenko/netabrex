@@ -1,7 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-let themes = {};
-
 export const isDarkMode = () =>
   window.matchMedia &&
   window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -85,13 +83,6 @@ export function loadJson(fileInputId = null) {
  *
  * @param {string} theme possible values are: 'dark', 'light'
  */
-export function getTheme(theme = 'light') {
-  let result = themes[theme] || null;
-
-  if (result === null) {
-    themes[theme] = createMuiTheme({ palette: { type: theme } });
-    result = themes[theme];
-  }
-
-  return result;
+export function createTheme(theme) {
+  return createMuiTheme({ palette: { type: theme } });
 }

@@ -5,7 +5,7 @@ import { useStoreon } from 'storeon/react';
 import { Code } from './code';
 
 export function Preview() {
-  const { dispatch, data } = useStoreon('data');
+  const { data } = useStoreon('data');
 
   return (
     <ReactMarkdown

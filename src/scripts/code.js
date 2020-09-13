@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export class Code extends React.PureComponent {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
     this.elCode = React.createRef();
   }
