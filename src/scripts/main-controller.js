@@ -1,17 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { StoreContext } from 'storeon/react';
-import { ThemeProvider } from '@material-ui/core/styles';
 
-import * as Constants from './constants';
 import { App } from './app';
-import { createStore, SET_DARK_MODE } from './store';
-import { getTheme } from './utils';
+import * as Constants from './constants';
+import { createStore, SET_THEME } from './store';
 
 export class MainController {
   constructor() {
     this.store = createStore();
-    this.theme = getTheme();
 
     this.addObservers();
     this.triggerInitialState();
@@ -20,8 +17,8 @@ export class MainController {
   addObservers() {
     this.store.on('@dispatch', (state, [event, data]) => {
       switch (event) {
-        case SET_DARK_MODE:
-          this.darkModeDidChange(data);
+        case SET_THEME:
+          this.themeDidChange(data);
           break;
         default:
           break;
@@ -29,27 +26,21 @@ export class MainController {
     });
   }
 
-  darkModeDidChange(value) {
-    let operation = value === true ? 'add' : 'remove';
-
-    document.body.classList[operation]('dark');
-    this.theme = getTheme(value === true ? 'dark' : 'light');
-
-    // FIXME apply the new theme, ther's some weird theme issue if you'll change it dynamically
-    this.main();
-  }
-
   main() {
     ReactDOM.render(
       <React.StrictMode>
-        <ThemeProvider theme={this.theme}>
-          <StoreContext.Provider value={this.store}>
-            <App toggleMode={this.toggleMode} />
-          </StoreContext.Provider>
-        </ThemeProvider>
+        <StoreContext.Provider value={this.store}>
+          <App toggleMode={this.toggleMode} />
+        </StoreContext.Provider>
       </React.StrictMode>,
       document.getElementById('root')
     );
+  }
+
+  themeDidChange(value) {
+    let operation = value === Constants.THEME_DARK ? 'add' : 'remove';
+
+    document.body.classList[operation]('dark');
   }
 
   toggleMode = () => {
@@ -64,8 +55,6 @@ export class MainController {
   };
 
   triggerInitialState() {
-    let state = this.store.get();
-
-    this.darkModeDidChange(state.darkMode);
+    this.themeDidChange(this.store.get().theme);
   }
 }

@@ -7,9 +7,9 @@ import * as Constants from './constants';
 import { isDarkMode } from './utils';
 
 export const RESET_DATA = 'resetData';
-export const SET_DARK_MODE = 'setDarkMode';
 export const SET_DATA = 'setData';
 export const SET_MODE = 'setMode';
+export const SET_THEME = 'setTheme';
 
 /**
  * @typedef {Object} State
@@ -24,9 +24,9 @@ export const SET_MODE = 'setMode';
  */
 export const getInitialState = () => {
   return {
-    darkMode: isDarkMode(),
     data: '# Hello\nStart writing here',
-    mode: Constants.MODE_EDITOR
+    mode: Constants.MODE_EDITOR,
+    theme: isDarkMode() === true ? Constants.THEME_DARK : Constants.THEME_LIGHT
   };
 };
 
@@ -43,10 +43,6 @@ export const resetData = createReducer(RESET_DATA, () => {
   return { data: getInitialState().data };
 });
 
-export const setDarkMode = createReducer(SET_DARK_MODE, (state, darkMode) => {
-  return { darkMode };
-});
-
 export const setData = createReducer(SET_DATA, (state, data) => {
   return { data };
 });
@@ -55,13 +51,17 @@ export const setMode = createReducer(SET_MODE, (state, mode) => {
   return { mode };
 });
 
+export const setTheme = createReducer(SET_THEME, (state, theme) => {
+  return { theme };
+});
+
 /**
  * Sets store initial state and declares reducers
  *
  * @param {Object} instance of the store
  */
 export const initStore = store => {
-  let reducers = [resetData, setDarkMode, setData, setMode];
+  let reducers = [resetData, setData, setMode, setTheme];
   store.on('@init', () => getInitialState());
 
   reducers.forEach(({ action, reducer }) => {

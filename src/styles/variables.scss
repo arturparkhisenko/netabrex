@@ -36,7 +36,7 @@ body {
   --colorFocus: rgba(0, 100, 255, 0.4) 0 0 0 0.2rem;
 
   /* Fonts */
-  --fontStack: -apple-system, "blinkmacsystemfont", "segoe ui", "helvetica", "arial", sans-serif, "apple color emoji", "segoe ui emoji";
+  --fontStack: "segoe ui", "helvetica", "arial", sans-serif, "apple color emoji", "segoe ui emoji";
   --fontStackCode: "sfmono-regular", "consolas", "liberation mono", "menlo", "inconsolata", "operator", "monaco", "courier new", courier, monospace;
   --fontSize: 16px;
   --fontColor: var(--colorDark);
