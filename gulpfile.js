@@ -20,6 +20,8 @@ const environment = process.env.NODE_ENV || 'development';
 const production = environment === 'production';
 const target = process.env.TARGET;
 
+process.traceDeprecation = production === false;
+
 console.log(`v${pkg.version}, NODE_ENV: ${environment}`); // eslint-disable-line
 
 if (target === undefined) {
@@ -63,14 +65,13 @@ const pipe = (source, ...transforms) =>
 // --------------------------------------
 
 const scripts = done => {
-  // Use it to upgrade to the new Webpack
-  // process.traceDeprecation = true;
   let config = {
     context: path.resolve(__dirname, 'src'),
     entry: './scripts/index.js',
+    target: ['web', 'es2020'],
     performance: { hints: 'warning' },
     mode: production === true ? 'production' : 'development',
-    devtool: production === true ? false : 'cheap-module-eval-source-map', // 'source-map'
+    devtool: production === true ? false : 'eval-cheap-source-map', // 'source-map'
     output: {
       path: path.resolve(__dirname, 'src/scripts'),
       filename: 'index.min.js'
@@ -102,9 +103,9 @@ const scripts = done => {
 
   if (production === true) {
     config.optimization = {
+      minimize: true,
       minimizer: [
         new TerserWebpackPlugin({
-          sourceMap: false,
           terserOptions: {
             output: {
               comments: false
@@ -118,6 +119,7 @@ const scripts = done => {
 
   webpack(config, (err, stats) => {
     if (err) {
+      console.log(err);
       throw new Error('webpack', err);
     }
 
