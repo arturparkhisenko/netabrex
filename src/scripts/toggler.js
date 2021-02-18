@@ -1,6 +1,5 @@
 import Checkbox from '@material-ui/core/Checkbox';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 export const Toggler = ({ checked, label, toggle }) => {
   function checkBoxToggle(event) {

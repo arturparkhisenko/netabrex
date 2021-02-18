@@ -1,7 +1,6 @@
 import Button from '@material-ui/core/Button';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useStoreon } from 'storeon/react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';

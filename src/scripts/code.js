@@ -1,12 +1,12 @@
 import hljs from 'highlight.js';
 import PropTypes from 'prop-types';
-import React from 'react';
+import { createRef, PureComponent } from 'react';
 
-export class Code extends React.PureComponent {
+export class Code extends PureComponent {
   constructor() {
     super();
 
-    this.elCode = React.createRef();
+    this.elCode = createRef();
   }
 
   componentDidMount() {
