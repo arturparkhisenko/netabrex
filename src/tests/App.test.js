@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import { render } from '@testing-library/react';
 
 import { App } from '../scripts/App';
@@ -12,11 +12,11 @@ beforeEach(() => {
   toggleMode = function (){};
   Wrapper = function Wrapper() {
     return (
-      <React.StrictMode>
+      <StrictMode>
         <StoreContext.Provider value={store}>
           <App toggleMode={toggleMode} />
         </StoreContext.Provider>
-      </React.StrictMode>
+      </StrictMode>
     );
   };
 });

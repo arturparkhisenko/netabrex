@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import CloseIcon from '@material-ui/icons/Close';
 import CloudDownloadOutlinedIcon from '@material-ui/icons/CloudDownloadOutlined';
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useStoreon } from 'storeon/react';
 import SettingsIcon from '@material-ui/icons/Settings';
 
